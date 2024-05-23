@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body {
+  margin: 0;
+  font-family: "Lato", sans-serif;
+}
+
+.sidebar {
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  background-color: #f1f1f1;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+}
+
+.sidebar a {
+  display: block;
+  color: black;
+  padding: 16px;
+  text-decoration: none;
+}
+ 
+.sidebar a.active {
+  background-color: #0d6efd;
+  color: white;
+}
+
+.sidebar a:hover:not(.active) {
+  background-color: #555;
+  color: white;
+}
+
+@media screen and (max-width: 3000px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+  }
+  .sidebar a {float: left;}
+}
+
+@media screen and (max-width: 600px) {
+  .sidebar a {
+    text-align: center;
+    float: none;
+  }
+}
+
+
+header .row {
+  padding-left: 10%;
+  padding-top: 5%;
+}
+
+@media screen and (max-width: 600px) {
+  header .row {
+    padding-left: 5%;
+    padding-top: 10%;
+  }
+}
+
+h1 {
+  font-size: 2em;
+  text-align: center;
+}
+
+
+.accordion-button {
+  width: 100%;
+}
+
+.accordion-button:not(.collapsed) {
+  color: #000;
+  background-color: #f1f1f1;
+}
+
+.accordion-button.collapsed {
+  color: #555;
+  background-color: #04AA6D;
+  color: white;
+}
+
+.accordion-item {
+  margin-bottom: 10px;
+}
+
+.accordion-body {
+  padding: 10px 20px;
+}
+
+@media screen and (max-width: 600px) {
+  .accordion-button {
+    font-size: 1em;
+    padding: 0.75em;
+  }
+
+  .accordion-body {
+    padding: 1em;
+  }
+}
+.accordion-button{
+  background-color:white!important;
+  color:black !important;
+}
+
+
+</style>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="sidebar">
+  <a class="active" href="/"><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-symmetry-vertical" viewBox="0 0 16 16">
+    <path d="M7 2.5a.5.5 0 0 0-.939-.24l-6 11A.5.5 0 0 0 .5 14h6a.5.5 0 0 0 .5-.5zm2.376-.484a.5.5 0 0 1 .563.245l6 11A.5.5 0 0 1 15.5 14h-6a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .376-.484M10 4.46V13h4.658z"/>
+  </svg>MİRROR</a>
+  <a href="#raporlar" class="nav-link link-body-emphasis">
+    Aday Raporları
+</a>
+<a  href="/analiz" class="nav-link link-body-emphasis">
+  Analiz
+</a>
+  <a href="/new_user" class="nav-link link-body-emphasis">
+    Kullanıcı Ekle
+  </a>
+  <a href="/password" class="nav-link link-body-emphasis">
+    Şifre İşlemleri
+  </a>
+  <a href="/" class="nav-link link-body-emphasis">
+    Çıkış yap
+  </a>
+</div>
+
+  
+
+<div class="row justify-content-center">
+  <div class="row" style="padding-top:50px;">
+    <h1>Öğretmen Adayı Psikanaliz Raporları</h1>
+  </div>
+  <div class="col-md-12">
+    <h2 class="text-center mb-3">
+      <%=unread.length%> yeni rapor
+      <span>
+        <svg xmlns="http://www.w3.org/2000/svg" width="25" height="50" fill="currentColor" class="bi bi-bell" viewBox="0 0 16 16">
+          <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2M8 1.918l-.797.161A4 4 0 0 0 4 6c0 .628-.134 2.197-.459 3.742-.16.767-.376 1.566-.663 2.258h10.244c-.287-.692-.502-1.49-.663-2.258C12.134 8.197 12 6.628 12 6a4 4 0 0 0-3.203-3.92zM14.22 12c.223.447.481.801.78 1H1c.299-.199.557-.553.78-1C2.68 10.2 3 6.88 3 6c0-2.42 1.72-4.44 4.005-4.901a1 1 0 1 1 1.99 0A5 5 0 0 1 13 6c0 .88.32 4.2 1.22 6"></path>
+        </svg>
+      </span> 
+    </h2>
+    
+    <div class="container mt-4">
+    
+       
+        <div class="accordion" id="notificationAccordion">
+          <% unread.forEach((not, index) => { %>
+          <div class="accordion-item">
+            <h2 class="accordion-header" id="heading<%= index %>">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<%= index %>" aria-expanded="false" aria-controls="collapse<%= index %>">
+                <%= not.not_ad %>
+              </button>
+            </h2>
+            <div id="collapse<%= index %>" class="accordion-collapse collapse" aria-labelledby="heading<%= index %>" data-bs-parent="#notificationAccordion">
+              <div class="accordion-body">
+                Tarih: <%= not.date %> - Saat: <%= not.time %>
+                <a href="/test/<%= not.id %>" class="btn btn-primary btn-sm">Detay</a>
+              </div>
+            </div>
+          </div>
+          <% }) %>
+        </div>
+    
+    </div>
+  </div>
+</div>
+
+<div class="container mt-5 mb-5">
+  <div class="row">
+    <div class="col d-flex justify-content-end align-items-center">
+      <div class="text-center text-md-start dashboardbox" style="margin-right: 20px;">
+        <h4>Toplam Rapor Sayısı</h4>
+        <p align="center" style="font-size:20px; font-weight:700;">
+          <% if (aday.length != 0) { %>
+            <%= aday.length %>
+          <% } else { %>
+          0
+          <% } %>
+        </p>
+      </div>
+    </div>
+    <div class="col d-flex justify-content-start align-items-center">
+      <div class="text-center text-md-start dashboardbox" style="margin-left: 20px;">
+        <h4>En Son Eklenen Rapor</h4>
+        <p align="center" style="font-size:15px; font-weight: 500;">
+        <% if (aday.length > 0) { %>
+          <% var sonEleman = aday[aday.length - 1]; %>
+          <%= sonEleman.ad %> / <%= sonEleman.tarih %>
+        <% } else { %>
+          <p align="center" style="color:red;font-size:15px; font-weight: 500;">Kayıt Bulunamadı</p>
+        <% } %>
+        </p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<section id="raporlar">
+  <div class="container mt-5 mb-5">
+    <div class="row">
+      <div class="col-md-12" style="padding: 15px; border: 1px solid rgb(207, 207, 207); border-radius: 3px;">
+        <h2 class="text-center mb-4">Rapor Listesi</h2>
+        <div class="filter_contain" style="display: flex; justify-content: flex-end;">
+                 
+                     <form action="filter" method="POST" style="display: flex; align-items: center;">
+                      <input style="color:black;" class="form-control" type="text" placeholder="İsim ile arayın" name="aday_name">
+                      <button type="submit" style="margin-left: 0px; border-radius: 5px;border: 0px ">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="35" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                          <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"></path>
+                        </svg>
+                      </button>
+                    </form>
+                
+          <button class="filter-btn btn btn-primary" style="padding:7px; height: 50px; margin-left: 10px;" data-bs-toggle="modal" data-bs-target="#raporDetayModal">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-sort-down" viewBox="0 0 16 16">
+              <path d="M3.5 2.5a.5.5 0 0 0-1 0v8.793l-1.146-1.147a.5.5 0 0 0-.708.708l2 1.999.007.007a.497.497 0 0 0 .7-.006l2-2a.5.5 0 0 0-.707-.708L3.5 11.293zm3.5 1a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5M7.5 6a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1zm0 3a.5.5 0 0 0 0 1h3a.5.5 0 0 0 0-1zm0 3a.5.5 0 0 0 0 1h1a.5.5 0 0 0 0-1zM7.5 6a.5.5 0 0 0 0 1h5a.5.5 0 0 0 0-1z"/>
+            </svg>
+            Filtrele
+          </button>
+       
+        </div>
+
+    <div class="table-responsive-sm">
+      <table class="table table-hover table-light mt-5">
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">Rapor No</th>
+            <th scope="col">Öğretmen Ad</th>
+            <th scope="col">Brans</th>
+            <th scope="col">Rapor Tarih</th>
+            <th scope="col">Rapor Detay</th>
+            <th scope="col">Rapor İşlem</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% aday.forEach((row, index) => { %>
+          <tr onclick="window.location.href = '/test/' + '<%= row.id %>';" style="cursor:pointer">
+            <th scope="row"><%= index + 1 %></th>
+            <td><%= row.id %></td>
+            <td><%= row.ad %></td>
+            <td><%= row.brans %></td>
+            <td><%= row.tarih %></td>
+            <td>
+              <input onclick="event.stopPropagation()" class="btn btn-primary detail-btn" name="<%= JSON.stringify(row) %>" data-bs-toggle="modal"
+                data-bs-target="#raporModal" type="button" value="Detay">
+            </td>
+            <td onclick="event.stopPropagation()">
+              <input type="button" value="Sil"  class="btn btn-danger delete-btn" data-bs-toggle="modal" data-bs-target="#deleteModal<%= index %>">
+              <div class="modal fade" id="deleteModal<%= index %>" tabindex="-1" aria-labelledby="deleteModalLabel<%= index %>" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="deleteModalLabel<%= index %>">Emin misiniz?</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <p><b><%=row.ad%></b> adayını silmek istediğinize emin misiniz?</p>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Vazgeç</button>
+                      <form method="post" action="/filter/<%= row.id %>">
+                        <button type="submit" class="btn btn-danger">Evet</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>  
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+ </div>
+</section>
+<!-- Modal -->
+<div class="modal fade" id="raporDetayModal" tabindex="-1" aria-labelledby="raporDetayModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="raporDetayModalLabel">FİLTRELE</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="modal-content animate" action="/filter" method="post">
+          <div class="container">
+            <label><b>Tarih</b></label>
+            <select style="color:black" name="date" class="form-select" aria-label="select example" id="date">
+<option value="">Tarihe göre sırala</option>
+<option value="1">En yakın</option>
+<option value="2">En eski</option>
+</select>
+        <label><b>Branş</b></label>
+        <select style="color:black" name="brans" class="form-select" aria-label="select example" id="brans">
+          <option value=""><b>Branşa göre sırala</b></option>
+          <option value="1">Türkçe</option>
+          <option value="2">İlköğretim Matematik</option>
+          <option value="3">Lise Matematik</option>
+          <option value="4">Fen ve Teknoloji</option>
+          <option value="5">Sosyal Bilimler</option>
+          <option value="6">Türk Dili ve Edebiyatı</option>
+          <option value="7">Tarih</option>
+          <option value="8">Din Kültürü ve Ahlak Bilgisi</option>
+          <option value="9">Psikolojik Danışman/Rehberlik</option>
+          <option value="10">Okul Öncesi</option>
+          <option value="11">Sınıf Öğretmenliği</option>
+          <option value="12">Kimya</option>
+          <option value="13">Fizik</option>
+          <option value="14">Biyoloji</option>
+          <option value="15">Coğrafya</option>
+          <option value="16">İngilizce</option>
+          <option value="17">Almanca</option>
+        </select>
+        <label>
+          <b>Cinsiyet</b></label>
+          <select style="color:black" name="cinsiyet" class="form-select" aria-label="select example" id="cinsiyet">
+        <option value="">Cinsiyet seçiniz</option>
+      <option value="1">Kadın</option>
+      <option value="2">Erkek</option>
+      <option value="3">Belirsiz</option>
+      </select>
+
+      <label>
+        <b>Deneyim</b></label>
+        <select style="color:black" name="deneyim" class="form-select" aria-label="select example" id="deneyim">
+          <option value="">Deneyim seçiniz</option>
+          <option value="5">14+</option>
+          <option value="4">11-13</option>
+          <option value="3">7-9</option>
+          <option value="2">4-6</option>
+          <option value="1">1-3</option>
+          <option value="0">0</option>
+
+      
+        <input type="checkbox" id="filterCheckbox" name="filterCheckbox">
+        <label for="filterCheckbox">Tüm filtreleri kaldır</label><br>
+        <div class="modal-footer">
+            <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Listele</button>
+          </div>
+      </div>
+    </form>
+  </div>
+</div>
+ </div>
+</div>
+<!-- Modal Detay-->
+<div class="modal fade" id="raporModal" tabindex="-1" aria-labelledby="raporDetayModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="raporDetayModalLabel">Detay</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <label for="ad"><b>Ad</b></label>
+        <input class="form-control" type="text" name="ad" id="ad" readonly>
+        <label for="eposta"><b>E posta</b></label>
+        <input class="form-control" type="text" name="eposta" id="eposta" readonly>
+        <label for="tel"><b>Telefon</b></label>
+        <input class="form-control" type="text" name="tel" id="tel" readonly>
+        <label for="brans-detail"><b>Brans</b></label>
+        <input class="form-control" type="text" name="brans-detail" id="brans-detail" readonly>
+        <label for="tarih"><b>Tarih</b></label>
+        <input class="form-control" type="text" name="tarih" id="tarih" readonly>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script src="/js/test.js"></script>
+</body>
+</html>
